@@ -19,6 +19,6 @@ Flight::route('POST /auth', [$users,'auth']);
 
 //Apis Relacionadas con la tabla tbdiagben
 Flight::route('GET /diag',[$diag,'getAll']);
-Flight::route('POST /diag',[$diag,'createReport']);
-
+Flight::route('POST /DiagGen',[$diag,'createDiagGen']);
+Flight::route('POST /DiagDet',[$diag,'createDiagDet']);
 Flight::start();

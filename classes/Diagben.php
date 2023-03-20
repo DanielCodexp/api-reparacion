@@ -148,7 +148,7 @@ class Diagben
         ) {
             $array = [
                 "data" => [
-                    "nIdDiag" => $this->db->lastInsertId(),
+                    "nIntDiag" => $this->db->lastInsertId(),
                     ":nFotDiag" => $nFotDiag,
                     ":cNomDiag" => $cNomDiag,
                     ":cObsDiag" => $cObsDiag,

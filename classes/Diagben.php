@@ -60,8 +60,65 @@ class Diagben
         ]);
 
     }
- 
 
+    function createReport()
+    {
+        $nCveEmp = Flight::request()->data->nCveEmp;
+        $nCveSrv = Flight::request()->data->nCveSrv;
+        $nIdUni = Flight::request()->data->nIdUni;
+        $cCveUni = Flight::request()->data->cCveUni;
+        $cObsDiag = Flight::request()->data->cObsDiag;
+        $cCveRea = Flight::request()->data->cCveRea;
+        $cCveMec = Flight::request()->data->cCveMec;
+        $cCveSup = Flight::request()->data->cCveSup;
+        $dtFecReg = Flight::request()->data->dtFecReg;
+        $nEdoDig = Flight::request()->data->nEdoDig;
+
+        $query = $this->db->prepare("INSERT INTO tbDiagGen (nCveEmp, nCveSrv, nIdUni, cCveUni, cObsDiag, cCveRea, cCveMec, cCveSup, dtFecReg, nEdoDig) 
+        VALUES (:nCveEmp, :nCveSrv, :nIdUni, :cCveUni, :cObsDiag, :cCveRea, :cCveMec, :cCveSup, :dtFecReg, :nEdoDig)");
+
+
+        $array = [
+            "error" => "Hubo un error al agregar los registros",
+            "status" => "error"
+        ];
+
+        if (
+            $query->execute([
+                ":nCveEmp" => $nCveEmp,
+                ":nCveSrv" => $nCveSrv,
+                ":nIdUni" => $nIdUni,
+                ":cCveUni" => $cCveUni,
+                ":cObsDiag" => $cObsDiag,
+                ":cCveRea" => $cCveRea,
+                ":cCveMec" => $cCveMec,
+                ":cCveSup" => $cCveSup,
+                ":dtFecReg" => $dtFecReg,
+                ":nEdoDig" => $nEdoDig
+            ])
+        ) {
+            $array = [
+                "data" => [
+                    "nIdDiag" => $this->db->lastInsertId(),
+                    "nCveEmp" => $nCveEmp,
+                    "nCveSrv" => $nCveSrv,
+                    "nIdUni" => $nIdUni,
+                    "cCveUni" => $cCveUni,
+                    "cObsDiag" => $cObsDiag,
+                    "cCveRea" => $cCveRea,
+                    "cCveMec" => $cCveMec,
+                    "cCveSup" => $cCveSup,
+                    "dtFecReg" => $dtFecReg,
+                    "nEdoDig" => $nEdoDig,
+
+                ],
+                "status" => "success"
+            ];
+        }
+
+        Flight::json($array);
+
+    }
 
 
 }

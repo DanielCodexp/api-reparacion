@@ -129,7 +129,7 @@ class Diagben
         $nIdDiag = Flight::request()->data->nIdDiag;
 
 
-        $query = $this->db->prepare("INSERT INTO tbDiagGen (nFotDiag, cNomDiag, cObsDiag, nIdDiag) 
+        $query = $this->db->prepare("INSERT INTO tbdiagdet (nFotDiag, cNomDiag, cObsDiag, nIdDiag) 
         VALUES (:nFotDiag, :cNomDiag, :cObsDiag, :nIdDiag)");
 
 

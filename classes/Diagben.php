@@ -40,16 +40,23 @@ class Diagben
         foreach ($data as $row) {
             $array[] = [
                 "nIdDiag" => $row['nIdDiag'],
+                "cCveMec" => $row['cCveMec'],
+                "cCveRea" => $row['cCveRea'],
+                "cCveSup" => $row['cCveSup'],
+                "cDesCar" => $row['cDesCar'],
+                "cDesTras" => $row['cDesTras'],
+                "cMcaMot" => $row['cMcaMot'],
+                "cObsDiag" => $row['cObsDiag'],
+                "cDesHP" => $row['cDesHP'],
+                "dtFecReg" => $row['dtFecReg'],
+                "dtHorReg" => $row['dtHorReg'],
+                "cDesFall" => $row['cDesFall'],
                 "nCveEmp" => $row['nCveEmp'],
                 "nCveSrv" => $row['nCveSrv'],
-                "nIdUni" => $row['nIdUni'],
-                "cCveUni" => $row['cCveUni'],
-                "cObsDiag" => $row['cObsDiag'],
-                "cCveRea" => $row['cCveRea'],
-                "cCveMec" => $row['cCveMec'],
-                "cCveSup" => $row['cCveSup'],
-                "dtFecReg" => $row['dtFecReg'],
-                "nEdoDig" => $row['nEdoDig'],
+                "nIdeUni" => $row['nIdeUni'],
+                "cTipCar" => $row['cTipCar'],
+                "cTipMot" => $row['cTipMot'],
+                "nModUni" => $row['nModUni'],
                 "tbDiagDet" => $tbDiagDet
             ];
         }
@@ -63,19 +70,32 @@ class Diagben
 
     function createDiagGen()
     {
+        $cCveMec = Flight::request()->data->cCveMec;
+        $cCveRea = Flight::request()->data->cCveRea;
+        $cCveSup = Flight::request()->data->cCveSup;
+        $cDesCar = Flight::request()->data->cDesCar;
+        $cDesTras = Flight::request()->data->cDesTras;
+        $cMcaMot = Flight::request()->data->cMcaMot;
+        $cObsDiag = Flight::request()->data->cObsDiag;
+        $cDesHP = Flight::request()->data->cDesHP;
+        $dtFecReg = Flight::request()->data->dtFecReg;
+        $dtHorReg = Flight::request()->data->dtHorReg;
+        $cDesFall = Flight::request()->data->cDesFall;
         $nCveEmp = Flight::request()->data->nCveEmp;
         $nCveSrv = Flight::request()->data->nCveSrv;
-        $nIdUni = Flight::request()->data->nIdUni;
-        $cCveUni = Flight::request()->data->cCveUni;
-        $cObsDiag = Flight::request()->data->cObsDiag;
-        $cCveRea = Flight::request()->data->cCveRea;
-        $cCveMec = Flight::request()->data->cCveMec;
-        $cCveSup = Flight::request()->data->cCveSup;
-        $dtFecReg = Flight::request()->data->dtFecReg;
-        $nEdoDig = Flight::request()->data->nEdoDig;
+        $nIdeUni = Flight::request()->data->nIdeUni;
+        $cTipMot = Flight::request()->data->cTipMot;
+        $cTipCar = Flight::request()->data->cTipCar;
+        $nModUni = Flight::request()->data->nModUni;
 
-        $query = $this->db->prepare("INSERT INTO tbDiagGen (nCveEmp, nCveSrv, nIdUni, cCveUni, cObsDiag, cCveRea, cCveMec, cCveSup, dtFecReg, nEdoDig) 
-        VALUES (:nCveEmp, :nCveSrv, :nIdUni, :cCveUni, :cObsDiag, :cCveRea, :cCveMec, :cCveSup, :dtFecReg, :nEdoDig)");
+   
+
+
+
+
+
+        $query = $this->db->prepare("INSERT INTO tbDiagGen (cCveMec, cCveRea, cCveSup, cDesCar, cDesTras, cMcaMot, cObsDiag, cDesHP, dtFecReg, dtHorReg, cDesFall, nCveEmp, nCveSrv, nIdeUni, cTipMot, cTipCar, nModUni) 
+        VALUES (:cCveMec, :cCveRea, :cCveSup, :cDesCar, :cDesTras, :cMcaMot, :cObsDiag, :cDesHP, :dtFecReg, :dtHorReg, :cDesFall, :nCveEmp, :nCveSrv, :nIdeUni, :cTipMot, :cTipCar, :nModUni)");
 
 
         $array = [
@@ -85,31 +105,47 @@ class Diagben
 
         if (
             $query->execute([
+                ":cCveMec" => $cCveMec,
+                ":cCveRea" => $cCveRea,
+                ":cCveSup" => $cCveSup,
+                ":cDesCar" => $cDesCar,
+                ":cDesTras" => $cDesTras,
+                ":cMcaMot" => $cMcaMot,
+                ":cObsDiag" => $cObsDiag,
+                ":cDesHP" => $cDesHP,
+                ":dtFecReg" => $dtFecReg,
+                ":dtHorReg" => $dtHorReg,
+                ":cDesFall" => $cDesFall,
                 ":nCveEmp" => $nCveEmp,
                 ":nCveSrv" => $nCveSrv,
-                ":nIdUni" => $nIdUni,
-                ":cCveUni" => $cCveUni,
-                ":cObsDiag" => $cObsDiag,
-                ":cCveRea" => $cCveRea,
-                ":cCveMec" => $cCveMec,
-                ":cCveSup" => $cCveSup,
-                ":dtFecReg" => $dtFecReg,
-                ":nEdoDig" => $nEdoDig
+                ":nIdeUni" => $nIdeUni,
+                ":cTipMot" => $cTipMot,
+                ":cTipCar" => $cTipCar,
+                ":nModUni" => $nModUni,
+        
+               
             ])
         ) {
             $array = [
                 "data" => [
                     "nIdDiag" => $this->db->lastInsertId(),
+                    "cCveMec" => $cCveMec,
+                    "cCveRea" => $cCveRea,
+                    "cCveSup" => $cCveSup,
+                    "cDesCar" => $cDesCar,
+                    "cDesTras" => $cDesTras,
+                    "cMcaMot" => $cMcaMot,
+                    "cObsDiag" => $cObsDiag,
+                    "cDesHP" => $cDesHP,
+                    "dtFecReg" => $dtFecReg,
+                    "dtHorReg" => $dtHorReg,
+                    "cDesFall" => $cDesFall,
                     "nCveEmp" => $nCveEmp,
                     "nCveSrv" => $nCveSrv,
-                    "nIdUni" => $nIdUni,
-                    "cCveUni" => $cCveUni,
-                    "cObsDiag" => $cObsDiag,
-                    "cCveRea" => $cCveRea,
-                    "cCveMec" => $cCveMec,
-                    "cCveSup" => $cCveSup,
-                    "dtFecReg" => $dtFecReg,
-                    "nEdoDig" => $nEdoDig,
+                    "nIdeUni" => $nIdeUni,
+                    "cTipMot" => $cTipMot,
+                    "cTipCar" => $cTipCar,
+                    "nModUni" => $nModUni,
 
                 ],
                 "status" => "success"

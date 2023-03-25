@@ -19,18 +19,19 @@ class Img
     
        $img = Flight::request()->data->img;
         
-        $direccion = dirname(__DIR__) . "assets/images";    
+        $direccion = dirname(__DIR__) . "\assets\images\\";    
         $partes = explode(";base64,",$img);
          // Optine la primera parte del arreglo y lo divide para obtener el tipo de imagen
         $extension = explode('/',mime_content_type($img))[1];
         // decodifica la imagen en base 64
         $imagen_base64 = base64_decode($partes[1]);
         $file = $direccion . uniqid() . "." . $extension;
+        file_put_contents($file,$imagen_base64);
 
        
        
        
-        Flight::json($file);
+       Flight::json($file);
        
       }
       

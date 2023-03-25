@@ -15,56 +15,23 @@ class Img
         $this->db = Flight::db();
     }
 
-    function guardarImagenes($json) {
-        // $carpeta = "imagenes/"; // ruta de la carpeta donde se guardarán las imágenes
-        // $urls = array(); // arreglo donde se almacenarán las URLs de las imágenes guardadas
-      
-        // foreach($imagenes as $imagen) {
-        //   $nombreArchivo = uniqid() . ".png"; // generamos un nombre de archivo único para evitar conflictos
-        //   $rutaArchivo = $carpeta . $nombreArchivo;
-          
-        //   // decodificamos la imagen en base64 y la guardamos en el archivo correspondiente
-        //   $archivo = fopen($rutaArchivo, "wb");
-        //   fwrite($archivo, base64_decode($imagen));
-        //   fclose($archivo);
-          
-        //   // agregamos la URL de la imagen guardada al arreglo de URLs
-        //   $urls[] = "https://tudominio.com/" . $rutaArchivo; // reemplaza "tudominio.com" con el nombre de tu sitio web
-        // }
-        
-        // // guardamos las URLs en un archivo JSON
-        // $json = json_encode($urls);
-        // file_put_contents("urls.json", $json);
-        
-        // return $urls; // retornamos el arreglo de URLs
-
-
-        $json = file_get_contents('php://input'); // RECIBE EL JSON DE ANGULAR
+    function guardarImagenes() {
     
-        $params = json_decode($json); // DECODIFICA EL JSON Y LO GUARADA EN LA VARIABLE
+       $img = Flight::request()->data->img;
         
-        $nombre = $params->nombre;
-        $nombreArchivo = $params->nombreArchivo;
-        $archivo = $params->base64textString;
-        $archivo = base64_decode($archivo);
-        
-        $filePath = $_SERVER['DOCUMENT_ROOT']."/PruebasAngular/".$nombreArchivo;
-        file_put_contents($filePath, $archivo);
-        
-        
-        class Result {}
-        // GENERA LOS DATOS DE RESPUESTA
-        $response = new Result();
-        
-        // $response->resultado = 'OK';
-        // $response->mensaje = 'SE SUBIO EXITOSAMENTE';
-        
-        header('Content-Type: application/json');
-        echo json_encode($response); // MUESTRA EL JSON GENERADO */
+        $direccion = dirname(__DIR__) . "assets/images";    
+        $partes = explode(";base64,",$img);
+         // Optine la primera parte del arreglo y lo divide para obtener el tipo de imagen
+        $extension = explode('/',mime_content_type($img))[1];
+        // decodifica la imagen en base 64
+        $imagen_base64 = base64_decode($partes[1]);
+        $file = $direccion . uniqid() . "." . $extension;
+
        
-
-
-
+       
+       
+        Flight::json($file);
+       
       }
       
 }

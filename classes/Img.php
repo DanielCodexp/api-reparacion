@@ -25,13 +25,17 @@ class Img
         $extension = explode('/',mime_content_type($img))[1];
         // decodifica la imagen en base 64
         $imagen_base64 = base64_decode($partes[1]);
+        //ruta donde se guardo la imagen
         $file = $direccion . uniqid() . "." . $extension;
+        //metodo para guardar la imagen 
         file_put_contents($file,$imagen_base64);
+        //Quitar // que arroja la direccion
+        $nuevadireccion = str_replace('\\','/',$file);
 
        
        
        
-       Flight::json($file);
+       Flight::json($nuevadireccion);
        
       }
       

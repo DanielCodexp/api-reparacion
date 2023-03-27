@@ -34,4 +34,5 @@ Flight::route('GET /car/@id',[$car,'getID']);
 //Api Relacionada con la tabla de tbImg
 Flight::route('POST /img',[$img,'guardarImagenes']);
 
+
 Flight::start();

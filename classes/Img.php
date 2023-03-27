@@ -5,6 +5,8 @@ require 'vendor/autoload.php';
 class Img
 {
     private $db;
+    private $img;
+    private $obs;
     function __construct()
     {
         Flight::register(
@@ -15,33 +17,69 @@ class Img
         $this->db = Flight::db();
     }
 
-    function guardarImagenes()
+    function guardar()
     {
-
         $imagenes = Flight::request()->data;
+        $imagePaths = [];
+        $descriptions = [];
+        foreach ($imagenes as $image) {
+            $description = $image['des'];
+            $base64Image = $image['img'];
 
-        // Carpeta donde se guardarán las imágenes
-        $direccion = dirname(__DIR__) . "\assets\images\\";
-        // Arreglo para almacenar las rutas de las imágenes guardadas
-        $rutas_imagenes = array();
-
-
-        foreach ($imagenes as $img) {
-
-            $partes = explode(";base64,", $img);
-            // Optine la primera parte del arreglo y lo divide para obtener el tipo de imagen
-            $extension = explode('/', mime_content_type($img))[1];
-            // decodifica la imagen en base 64
-            $imagen_base64 = base64_decode($partes[1]);
-            //ruta donde se guardo la imagen
-            $file = $direccion . uniqid() . "." . $extension;
-            //metodo para guardar la imagen 
-            file_put_contents($file, $imagen_base64);
+            // Obtener la extensión de la imagen
+            $extension = explode('/', mime_content_type($base64Image))[1];
+            // Crear un nombre de archivo único para la imagen
+            $filename = uniqid() . '.' . $extension;
+            // Decodificar la imagen de base64 y guardarla en la carpeta de imágenes
+            $imageData = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $base64Image));
+            $filePath = dirname(__DIR__) . "\assets\images\\" . $filename;
+            file_put_contents($filePath, $imageData);
             //Quitar // que arroja la direccion
-            $nuevadireccion = str_replace('\\', '/', $file);
-            array_push($rutas_imagenes,$nuevadireccion);
+            $nuevadireccion = str_replace('\\', '/', $filePath);
+            // Agregar la ruta de la imagen al arreglo de rutas y la descripción al arreglo de descripciones
+            array_push($imagePaths, $nuevadireccion);
+            array_push($descriptions, $description);
         }
-        Flight::json($rutas_imagenes);
+        Flight::json($descriptions);
+        Flight::json($imagePaths);
+        $this->img = implode(",", $imagePaths);
+        $this->obs = implode(",", $descriptions );
+        Flight::json($this->img);
+        $this->insert();
+
     }
-    
+    function insert()
+    {
+        $nFotDiag = Flight::request()->data->nFotDiag;
+        $cNomDiag = Flight::request()->data->cNomDiag;
+        $cObsDiag = Flight::request()->data->cObsDiag;
+        $nIdDiag = Flight::request()->data->nIdDiag;
+        $query = $this->db->prepare("INSERT INTO tbdiagdet (nFotDiag, cNomDiag, cObsDiag, nIdDiag) 
+        VALUES (:nFotDiag, :cNomDiag, :cObsDiag, :nIdDiag)");
+        $array = [
+            "error" => "Hubo un error al agregar los registros",
+            "status" => "error"
+        ];
+        if (
+            $query->execute([
+                ":nFotDiag" =>"1",
+                ":cNomDiag" =>$this->img,
+                ":cObsDiag" => $this->obs,
+                ":nIdDiag" => "48",
+            ])
+        ) {
+            $array = [
+                "data" => [
+                    "nIntDiag" => $this->db->lastInsertId(),
+                    ":nFotDiag" => $nFotDiag,
+                    ":cNomDiag" => $cNomDiag,
+                    ":cObsDiag" => $cObsDiag,
+                    ":nIdDiag" => $nIdDiag,
+                ],
+                "status" => "success"
+            ];
+        }
+
+        Flight::json($array);
+    }
 }

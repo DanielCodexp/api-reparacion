@@ -36,5 +36,6 @@ Flight::route('GET /car/@id',[$car,'getID']);
 
 Flight::route('POST /image',[$img,'guardar']);
 Flight::route('POST /img',[$img,'insert']);
+Flight::route('GET /idDes',[$img, 'idDes']);
 
 Flight::start();

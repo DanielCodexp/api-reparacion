@@ -7,6 +7,7 @@ class Img
     private $db;
     private $img;
     private $obs;
+    private $id;
     function __construct()
     {
         Flight::register(
@@ -43,10 +44,21 @@ class Img
         Flight::json($descriptions);
         Flight::json($imagePaths);
         $this->img = implode(",", $imagePaths);
-        $this->obs = implode(",", $descriptions );
+        $this->obs = implode(",", $descriptions);
         Flight::json($this->img);
+        $this->idDes();
         $this->insert();
+    }
+    function idDes()
+    {
 
+        $query = $this->db->prepare('SELECT nIdDiag FROM tbdiaggen ORDER BY nIdDiag DESC LIMIT 1');
+        $query->execute();
+        $data = $query->fetch();
+        
+        $this->id = $data['nIdDiag'];
+        Flight::json($this->id);
+       
     }
     function insert()
     {
@@ -62,10 +74,10 @@ class Img
         ];
         if (
             $query->execute([
-                ":nFotDiag" =>"1",
-                ":cNomDiag" =>$this->img,
+                ":nFotDiag" => "1",
+                ":cNomDiag" => $this->img,
                 ":cObsDiag" => $this->obs,
-                ":nIdDiag" => "58",
+                ":nIdDiag" => $this->id,
             ])
         ) {
             $array = [

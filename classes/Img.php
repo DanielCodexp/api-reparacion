@@ -65,7 +65,7 @@ class Img
                 ":nFotDiag" =>"1",
                 ":cNomDiag" =>$this->img,
                 ":cObsDiag" => $this->obs,
-                ":nIdDiag" => "48",
+                ":nIdDiag" => "58",
             ])
         ) {
             $array = [

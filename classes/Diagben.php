@@ -57,13 +57,12 @@ class Diagben
                 "cTipCar" => $row['cTipCar'],
                 "cTipMot" => $row['cTipMot'],
                 "nModUni" => $row['nModUni'],
-                "tbDiagDet" => $tbDiagDet
+               // "tbDiagDet" => $tbDiagDet
             ];
         }
 
         Flight::json([
-            "total_rows" => $query->rowCount(),
-            "rows" => $array,
+            "reports" => $array,
         ]);
     }
 
@@ -86,12 +85,6 @@ class Diagben
         $cTipMot = Flight::request()->data->cTipMot;
         $cTipCar = Flight::request()->data->cTipCar;
         $nModUni = Flight::request()->data->nModUni;
-
-
-
-
-
-
 
         $query = $this->db->prepare("INSERT INTO tbDiagGen (cCveMec, cCveRea, cCveSup, cDesCar, cDesTras, cMcaMot, cObsDiag, cDesHP, dtFecReg, dtHorReg, cDesFall, nCveEmp, nCveSrv, nIdeUni, cTipMot, cTipCar, nModUni) 
         VALUES (:cCveMec, :cCveRea, :cCveSup, :cDesCar, :cDesTras, :cMcaMot, :cObsDiag, :cDesHP, :dtFecReg, :dtHorReg, :cDesFall, :nCveEmp, :nCveSrv, :nIdeUni, :cTipMot, :cTipCar, :nModUni)");
@@ -200,10 +193,17 @@ class Diagben
         $query = $this->db->prepare("SELECT * FROM tbdiagdet WHERE nIdDiag = :nIdDiag");
         $query->execute([":nIdDiag" => $nIdDiag]);
         $img = $query->fetch();
-        $image = [
-            "img" => $img['cNomDiag'],
-            "des" => $img['cObsDiag']
-        ];
+        $url = explode(",", $img['cNomDiag']);
+        $commit = explode(",", $img['cObsDiag']);
+        $imagenes = array();
+            if (count( $url) == count($commit )) {
+              for ($i = 0; $i < count( $url); $i++) {
+                $objeto = new stdClass();
+                $objeto->img=  $url[$i];
+                $objeto->des = $commit [$i];
+                array_push($imagenes, $objeto);
+              }
+            }
         $query = $this->db->prepare("SELECT * FROM tbDiagGen WHERE nIdDiag = :nIdDiag");
         $query->execute([":nIdDiag" => $nIdDiag]);
         $principal = $query->fetch();
@@ -227,7 +227,7 @@ class Diagben
             "cTipCar" => $principal['cTipCar'],
             "cTipMot" => $principal['cTipMot'],
             "nModUni" => $principal['nModUni'],
-            "tbDiagDet" => $image
+            "tbDiagDet" => $imagenes
         ];
 
         Flight::json($array);

@@ -26,17 +26,15 @@ Flight::route('POST /auth', [$users,'auth']);
 Flight::route('GET /diag',[$diag,'getAll']);
 Flight::route('POST /DiagGen',[$diag,'createDiagGen']);
 Flight::route('POST /DiagDet',[$diag,'createDiagDet']);
+Flight::route('GET /id/@id',[$diag, 'getByID']);
 
 //Apis Relacionadas con la taba tbCarUnidad
 Flight::route('GET /car',[$car,'getAll']);
 Flight::route('GET /car/@id',[$car,'getID']);
 
 //Api Relacionada con la tabla de tbImg
-//Flight::route('POST /img',[$img,'guardarImagenes']);
-
 Flight::route('POST /image',[$img,'guardar']);
 Flight::route('POST /img',[$img,'insert']);
 Flight::route('GET /idDes',[$img, 'idDes']);
-Flight::route('GET /id/@id',[$diag, 'getByID']);
 
 Flight::start();

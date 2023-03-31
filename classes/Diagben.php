@@ -65,7 +65,6 @@ class Diagben
             "total_rows" => $query->rowCount(),
             "rows" => $array,
         ]);
-
     }
 
     function createDiagGen()
@@ -88,7 +87,7 @@ class Diagben
         $cTipCar = Flight::request()->data->cTipCar;
         $nModUni = Flight::request()->data->nModUni;
 
-   
+
 
 
 
@@ -122,8 +121,8 @@ class Diagben
                 ":cTipMot" => $cTipMot,
                 ":cTipCar" => $cTipCar,
                 ":nModUni" => $nModUni,
-        
-               
+
+
             ])
         ) {
             $array = [
@@ -153,7 +152,6 @@ class Diagben
         }
 
         Flight::json($array);
-
     }
 
 
@@ -195,7 +193,43 @@ class Diagben
         }
 
         Flight::json($array);
-
     }
 
+    function getByID($nIdDiag)
+    {
+        $query = $this->db->prepare("SELECT * FROM tbdiagdet WHERE nIdDiag = :nIdDiag");
+        $query->execute([":nIdDiag" => $nIdDiag]);
+        $img = $query->fetch();
+        $image = [
+            "img" => $img['cNomDiag'],
+            "des" => $img['cObsDiag']
+        ];
+        $query = $this->db->prepare("SELECT * FROM tbDiagGen WHERE nIdDiag = :nIdDiag");
+        $query->execute([":nIdDiag" => $nIdDiag]);
+        $principal = $query->fetch();
+
+        $array[] = [
+            "nIdDiag" => $principal['nIdDiag'],
+            "cCveMec" => $principal['cCveMec'],
+            "cCveRea" => $principal['cCveRea'],
+            "cCveSup" => $principal['cCveSup'],
+            "cDesCar" => $principal['cDesCar'],
+            "cDesTras" => $principal['cDesTras'],
+            "cMcaMot" => $principal['cMcaMot'],
+            "cObsDiag" => $principal['cObsDiag'],
+            "cDesHP" => $principal['cDesHP'],
+            "dtFecReg" => $principal['dtFecReg'],
+            "dtHorReg" => $principal['dtHorReg'],
+            "cDesFall" => $principal['cDesFall'],
+            "nCveEmp" => $principal['nCveEmp'],
+            "nCveSrv" => $principal['nCveSrv'],
+            "nIdeUni" => $principal['nIdeUni'],
+            "cTipCar" => $principal['cTipCar'],
+            "cTipMot" => $principal['cTipMot'],
+            "nModUni" => $principal['nModUni'],
+            "tbDiagDet" => $image
+        ];
+
+        Flight::json($array);
+    }
 }

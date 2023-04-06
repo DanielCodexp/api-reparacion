@@ -31,6 +31,7 @@ Flight::route('GET /id/@id',[$diag, 'getByID']);
 //Apis Relacionadas con la taba tbCarUnidad
 Flight::route('GET /car',[$car,'getAll']);
 Flight::route('GET /car/@id',[$car,'getID']);
+Flight::route('POST /car',[$car,'newCar']);
 
 //Api Relacionada con la tabla de tbImg
 Flight::route('POST /image',[$img,'guardar']);

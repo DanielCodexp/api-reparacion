@@ -6,6 +6,7 @@ require 'vendor/autoload.php';
 class Diagben
 {
     private $db;
+    private$image;
     function __construct()
     {
         Flight::register(
@@ -195,15 +196,20 @@ class Diagben
         $img = $query->fetch();
         $url = explode(",", $img['cNomDiag']);
         $commit = explode(",", $img['cObsDiag']);
-        $imagenes = array();
+        $this->image = array();
             if (count( $url) == count($commit )) {
               for ($i = 0; $i < count( $url); $i++) {
                 $objeto = new stdClass();
                 $objeto->img=  $url[$i];
                 $objeto->des = $commit [$i];
-                array_push($imagenes, $objeto);
+                array_push($this->image, $objeto);
               }
             }
+
+         
+
+
+
         $query = $this->db->prepare("SELECT * FROM tbDiagGen WHERE nIdDiag = :nIdDiag");
         $query->execute([":nIdDiag" => $nIdDiag]);
         $principal = $query->fetch();
@@ -227,9 +233,12 @@ class Diagben
             "cTipCar" => $principal['cTipCar'],
             "cTipMot" => $principal['cTipMot'],
             "nModUni" => $principal['nModUni'],
-            "tbDiagDet" => $imagenes
+            "tbDiagDet" => $this->image
         ];
 
         Flight::json($array);
+        
     }
+
+  
 }

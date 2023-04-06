@@ -17,8 +17,9 @@ class Car
         $this->db = Flight::db();
     }
 
-    function getAll () {
-        $query = $this->db->prepare("SELECT * FROM tbcarunidad");
+    function getAll()
+    {
+        $query = $this->db->prepare("SELECT * FROM tbCarUnidad");
         $query->execute();
         $data = $query->fetchAll();
         $array = [];
@@ -51,9 +52,10 @@ class Car
         ]);
     }
 
-    function getID($nIdeUni) {
-        $query = $this->db->prepare("SELECT * FROM tbcarunidad WHERE nIdeUni = :nIdeUni");
-        $query->execute([":nIdeUni" => $nIdeUni]);
+    function getID($cCveUni)
+    {
+        $query = $this->db->prepare("SELECT * FROM tbCarUnidad WHERE cCveUni = :cCveUni");
+        $query->execute([":cCveUni" => $cCveUni]);
         $data = $query->fetch();
         $array[] = [
             "nCveReg" => $data['nCveReg'],
@@ -79,7 +81,67 @@ class Car
         Flight::json($array);
     }
 
+    function newCar()
+    {
+
+        $nIdeUni = Flight::request()->data->nIdeUni;
+        $nCveSrv = Flight::request()->data->nCveSrv;
+        $nCveEmpPer = Flight::request()->data->nCveEmpPer;
+        $nCveEmp = Flight::request()->data->nCveEmp;
+        $cCveUniAnt = Flight::request()->data->cCveUniAnt;
+        $cCveUni = Flight::request()->data->cCveUni;
+        $dtFecAdq = Flight::request()->data->dtFecAdq;
+        $cDesZon = Flight::request()->data->cDesZon;
+        $cCodRut = Flight::request()->data->cCodRut;
+        $nEdoUni = Flight::request()->data->nEdoUni;
+        $nModUni = Flight::request()->data->nModUni;
+        $cSerUni = Flight::request()->data->cSerUni;
+        $cMotor = Flight::request()->data->cMotor;
+        $cMcaMot = Flight::request()->data->cMcaMot;
+        $cTipMot = Flight::request()->data->cTipMot;
+        $cDesHP = Flight::request()->data->cDesHP;
+        $cDesCar = Flight::request()->data->cDesCar;
+        $cTipCar = Flight::request()->data->cTipCar;
+
+        $query = $this->db->prepare("INSERT INTO tbCarUnidad
+        (nIdeUni,nCveSrv,nCveEmpPer,nCveEmp,cCveUniAnt,cCveUni,dtFecAdq,cDesZon,cCodRut,nEdoUni,nModUni,cSerUni,cMotor,cMcaMot,cTipMot,cDesHP,cDesCar,cTipCar )
+        values (:nIdeUni,:nCveSrv,:nCveEmpPer,:nCveEmp,:cCveUniAnt,:cCveUni,:dtFecAdq,:cDesZon,:cCodRut,:nEdoUni,:nModUni,:cSerUni,:cMotor,:cMcaMot,:cTipMot,:cDesHP,:cDesCar,:cTipCar)
+        ");
+
+        $array = [
+            "error" => "Hubo un error al agregar los registros",
+            "status" => "error"
+        ];
+
+        if($query->execute([":nIdeUni" => $nIdeUni,":nCveSrv" => $nCveSrv,":nCveEmpPer" => $nCveEmpPer,":nCveEmp" => $nCveEmp,":cCveUniAnt" => $cCveUniAnt,":cCveUni" => $cCveUni,":dtFecAdq" => $dtFecAdq,":cDesZon" => $cDesZon,":cCodRut" => $cCodRut,":nEdoUni" => $nEdoUni,":nModUni" => $nModUni,":cSerUni" => $cSerUni,":cMotor" => $cMotor,":cMcaMot" => $cMcaMot,":cTipMot"=>$cTipMot,":cDesHP"=>$cDesHP,":cDesCar" => $cDesCar,":cTipCar" => $cTipCar])) {
 
 
+        $array = [
+            "data" => [
+                "nCveReg" =>$this->db->lastInsertId(),
+                "nIdeUni" =>$nIdeUni,
+                "nCveSrv" =>$nCveSrv,
+                "nCveEmpPer" =>$nCveEmpPer,
+                "nCveEmp" =>$nCveEmp,
+                "cCveUniAnt" =>$cCveUniAnt,
+                "cCveUni" =>$cCveUni,
+                "dtFecAdq" =>$dtFecAdq,
+                "cDesZon" =>$cDesZon,
+                "cCodRut" =>$cCodRut,
+                "nEdoUni" =>$nEdoUni,
+                "nModUni" =>$nModUni,
+                "cSerUni" =>$cSerUni,
+                "cMotor" =>$cMotor,
+                "cMcaMot" =>$cMcaMot,
+                "cTipMot" =>$cTipMot,
+                "cDesHP" =>$cDesHP,
+                "cDesCar" =>$cDesCar,
+                "cTipCar" =>$cTipCar,
+            ],
+            "status" => "success"
+        ];
+    }
+    Flight::json($array);
+    }
+    
 }
-

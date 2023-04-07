@@ -52,12 +52,18 @@ class Img
     function idDes()
     {
 
-        $query = $this->db->prepare('SELECT nIdDiag FROM tbdiaggen ORDER BY nIdDiag DESC LIMIT 1');
+        $query = $this->db->prepare('SELECT nIntDiag FROM tbdiagdet ORDER BY nIntDiag DESC LIMIT 1');
         $query->execute();
         $data = $query->fetch();
-        
-        $this->id = $data['nIdDiag'];
-        Flight::json($this->id);
+         if( $data!= 0){
+            $this->id = $data['nIntDiag'];
+            Flight::json($this->id+1);
+         } else {
+           $this->id=1;
+        Flight::json(1);  
+         }
+       
+       
        
     }
     function insert()

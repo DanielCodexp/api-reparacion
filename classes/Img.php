@@ -54,17 +54,18 @@ class Img
 
         $query = $this->db->prepare('SELECT nIntDiag FROM tbdiagdet ORDER BY nIntDiag DESC LIMIT 1');
         $query->execute();
-        $data = $query->fetch();
-         if( $data!= 0){
-            $this->id = $data['nIntDiag'];
-            Flight::json($this->id+1);
-         } else {
-           $this->id=1;
-        Flight::json(1);  
-         }
-       
-       
-       
+        $data = $query->fetch();  
+        if ($data && isset($data['nIntDiag'])) {
+            if ($data['nIntDiag'] > 0) {
+                $this->id = $data['nIntDiag'] + 1;
+            } else {
+                $this->id = 1;
+            }
+        } else {
+            $this->id = 1;
+        }
+        
+        Flight::json($this->id);
     }
     function insert()
     {

@@ -6,7 +6,6 @@ $dotenv->load();
 require 'classes/User.php';
 require 'classes/Diagben.php';
 require 'classes/Car.php';
-//require 'classes/Img.php';
 require 'classes/Img.php';
 
 $users = new Users();
@@ -29,9 +28,6 @@ Flight::route('POST /DiagDet',[$diag,'createDiagDet']);
 Flight::route('GET /id/@id',[$diag, 'getByID']);
 Flight::route('PUT /DiagGen/@nIdDiag',[$diag, 'edit']);
 
-
-
-
 //Apis Relacionadas con la taba tbCarUnidad
 Flight::route('GET /car',[$car,'getAll']);
 Flight::route('GET /car/@id',[$car,'getID']);
@@ -45,5 +41,6 @@ Flight::route('POST /image',[$img,'guardar_imagenes']);
 Flight::route('POST /img',[$img,'insert']);
 Flight::route('GET /idDes',[$img, 'idDes']);
 Flight::route('PUT /image/@nIntDiag',[$img,'edit']);
+Flight::route('GET /image/@id', [$img, 'getByID']);
 
 Flight::start();

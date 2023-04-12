@@ -109,6 +109,7 @@ class Img
         $cNomDiag = Flight::request()->data->cNomDiag;
         $cObsDiag = Flight::request()->data->cObsDiag;
         $nIdDiag = Flight::request()->data->nIdDiag;
+
         $query = $this->db->prepare("UPDATE tbdiagdet SET nFotDiag = :nFotDiag, cNomDiag = :cNomDiag, cObsDiag = :cObsDiag, nIdDiag = :nIdDiag WHERE nIntDiag = :nIntDiag");
         $array = [
             "error" => "Hubo un error al agregar los registros",
@@ -189,5 +190,22 @@ class Img
 
             Flight::json($array);
         }
+    }
+    function getByID($nIdDiag)
+    {
+        $query = $this->db->prepare("SELECT * FROM tbdiagdet WHERE nIdDiag = :nIdDiag");
+        $query->execute([":nIdDiag" => $nIdDiag]);
+        $img = $query->fetchAll();
+        $array = [];
+        foreach ($img as $row) {
+            $array[] = [
+                "nIntDiag" => $row['nIntDiag'],
+                "nFotDiag" => $row['nFotDiag'],
+                "cNomDiag" => $row['cNomDiag'],
+                "cObsDiag" => $row['cObsDiag'],
+                "nIdDiag" => $row['nIdDiag'],
+            ];
+        }
+        Flight::json( $array);
     }
 }

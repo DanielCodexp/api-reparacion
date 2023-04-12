@@ -102,13 +102,17 @@ class Img
         Flight::json($array);
     }
 
-    function edit($nIntDiag)
+    function edit()
     {
-        // $nIntDiag = Flight::request()->data->nIntDiag;
-        $nFotDiag = Flight::request()->data->nFotDiag;
-        $cNomDiag = Flight::request()->data->cNomDiag;
-        $cObsDiag = Flight::request()->data->cObsDiag;
-        $nIdDiag = Flight::request()->data->nIdDiag;
+        $imagenes = Flight::request()->data;
+        foreach ($imagenes as $imagen) {
+     
+
+        $nIntDiag = $imagen['nIntDiag'];
+        $nFotDiag = $imagen['nFotDiag'];
+        $cNomDiag = $imagen['cNomDiag'];
+        $cObsDiag = $imagen['cObsDiag'];
+        $nIdDiag = $imagen['nIdDiag'];
 
         $query = $this->db->prepare("UPDATE tbdiagdet SET nFotDiag = :nFotDiag, cNomDiag = :cNomDiag, cObsDiag = :cObsDiag, nIdDiag = :nIdDiag WHERE nIntDiag = :nIntDiag");
         $array = [
@@ -137,6 +141,7 @@ class Img
         }
 
         Flight::json($array);
+    }
     }
 
 

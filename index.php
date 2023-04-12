@@ -40,7 +40,7 @@ Flight::route('POST /image',[$img,'guardar_imagenes']);
 
 Flight::route('POST /img',[$img,'insert']);
 Flight::route('GET /idDes',[$img, 'idDes']);
-Flight::route('PUT /image/@nIntDiag',[$img,'edit']);
+Flight::route('PUT /image',[$img,'edit']);
 Flight::route('GET /image/@id', [$img, 'getByID']);
 
 Flight::start();

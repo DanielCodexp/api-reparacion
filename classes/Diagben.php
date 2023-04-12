@@ -239,6 +239,86 @@ class Diagben
         Flight::json($array);
         
     }
+    
+    function edit( $nIdDiag){
+        // $nIdDiag = Flight:: request()->data->nIdDiag;
+        $cCveMec = Flight::request()->data->cCveMec;
+        $cCveRea = Flight::request()->data->cCveRea;
+        $cCveSup = Flight::request()->data->cCveSup;
+        $cDesCar = Flight::request()->data->cDesCar;
+        $cDesTras = Flight::request()->data->cDesTras;
+        $cMcaMot = Flight::request()->data->cMcaMot;
+        $cObsDiag = Flight::request()->data->cObsDiag;
+        $cDesHP = Flight::request()->data->cDesHP;
+        $dtFecReg = Flight::request()->data->dtFecReg;
+        $dtHorReg = Flight::request()->data->dtHorReg;
+        $cDesFall = Flight::request()->data->cDesFall;
+        $nCveEmp = Flight::request()->data->nCveEmp;
+        $nCveSrv = Flight::request()->data->nCveSrv;
+        $nIdeUni = Flight::request()->data->nIdeUni;
+        $cTipMot = Flight::request()->data->cTipMot;
+        $cTipCar = Flight::request()->data->cTipCar;
+        $nModUni = Flight::request()->data->nModUni;
 
-  
+        $query = $this->db->prepare("UPDATE tbDiagGen SET cCveMec = :cCveMec, cCveRea = :cCveRea, cCveSup = :cCveSup, cDesCar = :cDesCar,
+        cDesTras = :cDesTras, cMcaMot = :cMcaMot, cObsDiag = :cObsDiag, cDesHP = :cDesHP, dtFecReg = :dtFecReg, dtHorReg = :dtHorReg, 
+        cDesFall = :cDesFall, nCveEmp = :nCveEmp, nCveSrv = :nCveSrv, nIdeUni = :nIdeUni, cTipMot = :cTipMot, cTipCar = :cTipCar, nModUni = :nModUni WHERE nIdDiag = :nIdDiag   ");
+
+
+        $array = [
+            "error" => "Hubo un error al agregar los registros",
+            "status" => "error"
+        ];
+
+        if (
+            $query->execute([
+                "nIdDiag" => $nIdDiag,
+                ":cCveMec" => $cCveMec,
+                ":cCveRea" => $cCveRea,
+                ":cCveSup" => $cCveSup,
+                ":cDesCar" => $cDesCar,
+                ":cDesTras" => $cDesTras,
+                ":cMcaMot" => $cMcaMot,
+                ":cObsDiag" => $cObsDiag,
+                ":cDesHP" => $cDesHP,
+                ":dtFecReg" => $dtFecReg,
+                ":dtHorReg" => $dtHorReg,
+                ":cDesFall" => $cDesFall,
+                ":nCveEmp" => $nCveEmp,
+                ":nCveSrv" => $nCveSrv,
+                ":nIdeUni" => $nIdeUni,
+                ":cTipMot" => $cTipMot,
+                ":cTipCar" => $cTipCar,
+                ":nModUni" => $nModUni,
+            ])
+        ) {
+            $array = [
+                "data" => [
+                    "nIdDiag" =>$nIdDiag,
+                    "cCveMec" => $cCveMec,
+                    "cCveRea" => $cCveRea,
+                    "cCveSup" => $cCveSup,
+                    "cDesCar" => $cDesCar,
+                    "cDesTras" => $cDesTras,
+                    "cMcaMot" => $cMcaMot,
+                    "cObsDiag" => $cObsDiag,
+                    "cDesHP" => $cDesHP,
+                    "dtFecReg" => $dtFecReg,
+                    "dtHorReg" => $dtHorReg,
+                    "cDesFall" => $cDesFall,
+                    "nCveEmp" => $nCveEmp,
+                    "nCveSrv" => $nCveSrv,
+                    "nIdeUni" => $nIdeUni,
+                    "cTipMot" => $cTipMot,
+                    "cTipCar" => $cTipCar,
+                    "nModUni" => $nModUni,
+
+                ],
+                "status" => "success"
+            ];
+        }
+
+        Flight::json($array);
+    }
+
 }

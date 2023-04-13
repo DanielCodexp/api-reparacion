@@ -147,48 +147,6 @@ class Diagben
 
         Flight::json($array);
     }
-
-
-    function createDiagDet()
-    {
-        $nFotDiag = Flight::request()->data->nFotDiag;
-        $cNomDiag = Flight::request()->data->cNomDiag;
-        $cObsDiag = Flight::request()->data->cObsDiag;
-        $nIdDiag = Flight::request()->data->nIdDiag;
-
-
-        $query = $this->db->prepare("INSERT INTO tbdiagdet (nFotDiag, cNomDiag, cObsDiag, nIdDiag) 
-        VALUES (:nFotDiag, :cNomDiag, :cObsDiag, :nIdDiag)");
-
-
-        $array = [
-            "error" => "Hubo un error al agregar los registros",
-            "status" => "error"
-        ];
-
-        if (
-            $query->execute([
-                ":nFotDiag" => $nFotDiag,
-                ":cNomDiag" => $cNomDiag,
-                ":cObsDiag" => $cObsDiag,
-                ":nIdDiag" => $nIdDiag,
-            ])
-        ) {
-            $array = [
-                "data" => [
-                    "nIntDiag" => $this->db->lastInsertId(),
-                    ":nFotDiag" => $nFotDiag,
-                    ":cNomDiag" => $cNomDiag,
-                    ":cObsDiag" => $cObsDiag,
-                    ":nIdDiag" => $nIdDiag,
-                ],
-                "status" => "success"
-            ];
-        }
-
-        Flight::json($array);
-    }
-
     function getByID($nIdDiag)
     {
         

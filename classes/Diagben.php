@@ -191,36 +191,7 @@ class Diagben
 
     function getByID($nIdDiag)
     {
-        // $query = $this->db->prepare("SELECT * FROM tbdiagdet WHERE nIdDiag = :nIdDiag");
-        // $query->execute([":nIdDiag" => $nIdDiag]);
-        // $img = $query->fetchAll();
-        // $array = [];
-        // foreach ($img as $row) {
-        //     $array[] = [
-        //         "nIntDiag" => $row['nIntDiag'],
-        //         "nFotDiag" => $row['nFotDiag'],
-        //         "cNomDiag" => $row['cNomDiag'],
-        //         "cObsDiag" => $row['cObsDiag'],
-        //         "nIdDiag" => $row['nIdDiag'],
-        //     ];
-        // }
-        // Flight::json( $array);
-        // $url = explode(",", $img['cNomDiag']);
-        // $commit = explode(",", $img['cObsDiag']);
-        // $this->image = array();
-        //     if (count( $url) == count($commit )) {
-        //       for ($i = 0; $i < count( $url); $i++) {
-        //         $objeto = new stdClass();
-        //         $objeto->img=  $url[$i];
-        //         $objeto->des = $commit [$i];
-        //         array_push($this->image, $objeto);
-        //       }
-        //     }
-
-         
-
-
-
+        
         $query = $this->db->prepare("SELECT * FROM tbDiagGen WHERE nIdDiag = :nIdDiag");
         $query->execute([":nIdDiag" => $nIdDiag]);
         $principal = $query->fetch();

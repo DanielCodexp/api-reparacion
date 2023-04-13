@@ -24,7 +24,6 @@ Flight::route('POST /auth', [$users,'auth']);
 //Apis Relacionadas con la tabla tbdiagben
 Flight::route('GET /diag',[$diag,'getAll']);
 Flight::route('POST /DiagGen',[$diag,'createDiagGen']);
-Flight::route('POST /DiagDet',[$diag,'createDiagDet']);
 Flight::route('GET /id/@id',[$diag, 'getByID']);
 Flight::route('PUT /DiagGen/@nIdDiag',[$diag, 'edit']);
 
@@ -34,13 +33,10 @@ Flight::route('GET /car/@id',[$car,'getID']);
 Flight::route('POST /car',[$car,'newCar']);
 
 //Api Relacionada con la tabla de tbImg
-// Flight::route('POST /image',[$img,'guardar']);
-
 Flight::route('POST /image',[$img,'guardar_imagenes']);
-
-Flight::route('POST /img',[$img,'insert']);
 Flight::route('GET /idDes',[$img, 'idDes']);
 Flight::route('PUT /image',[$img,'edit']);
 Flight::route('GET /image/@id', [$img, 'getByID']);
+Flight::route('DELETE /image/@nIntDiag', [$img, 'delete']);
 
 Flight::start();

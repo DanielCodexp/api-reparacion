@@ -85,6 +85,7 @@ class Img
             // Obtener la descripción de la imagen y la imagen en base 64
             $cObsDiag = $imagen['des'];
             $base64Image = $imagen['img'];
+            $nIdDiag = $imagen['nIdDiag'];
             // Obtener la extensión de la imagen
             $extension = explode('/', mime_content_type($base64Image))[1];
             // Crear un nombre de archivo único para la imagen
@@ -97,7 +98,7 @@ class Img
             $cNomDiag = str_replace('\\', '/', $filePath);
             
             $nFotDiag = Flight::request()->data->nFotDiag;
-            $nIdDiag = Flight::request()->data->nIdDiag;
+           
             $query = $this->db->prepare("INSERT INTO tbdiagdet (nFotDiag, cNomDiag, cObsDiag, nIdDiag) 
             VALUES (:nFotDiag, :cNomDiag , :cObsDiag, :nIdDiag)");
             $array = [
@@ -109,7 +110,7 @@ class Img
                     ":nFotDiag" => "1",
                     ":cNomDiag" => $cNomDiag,
                     ":cObsDiag" => $cObsDiag,
-                    ":nIdDiag" => $this->id,
+                    ":nIdDiag" => $nIdDiag
                   //":nIdDiag" => "2",
                 ])
             ) {

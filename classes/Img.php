@@ -98,7 +98,7 @@ class Img
             $cNomDiag = str_replace('\\', '/', $filePath);
             
             $nFotDiag = Flight::request()->data->nFotDiag;
-            $nIdDiag = Flight::request()->data->nIdDiag;
+           
             $query = $this->db->prepare("INSERT INTO tbdiagdet (nFotDiag, cNomDiag, cObsDiag, nIdDiag) 
             VALUES (:nFotDiag, :cNomDiag , :cObsDiag, :nIdDiag)");
             $array = [

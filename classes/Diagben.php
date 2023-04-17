@@ -19,22 +19,7 @@ class Diagben
 
     function getAll()
     {
-        $query = $this->db->prepare("SELECT * FROM tbDiagDet");
-        $query->execute();
-        $data = $query->fetchAll();
-        $tbDiagDet = [];
-        foreach ($data as $row) {
-            $tbDiagDet[] = [
-                "nIntDiag" => $row['nIntDiag'],
-                "nFotDiag" => $row['nFotDiag'],
-                "cNomDiag" => $row['cNomDiag'],
-                "cObsDiag" => $row['cObsDiag'],
-                "nIdDiag" => $row['nIdDiag'],
-            ];
-        }
-
-
-        $query = $this->db->prepare("SELECT * FROM tbDiagGen");
+        $query = $this->db->prepare("SELECT * FROM tbdiaggen");
         $query->execute();
         $data = $query->fetchAll();
         $array = [];
@@ -58,7 +43,6 @@ class Diagben
                 "cTipCar" => $row['cTipCar'],
                 "cTipMot" => $row['cTipMot'],
                 "nModUni" => $row['nModUni'],
-               // "tbDiagDet" => $tbDiagDet
             ];
         }
 
@@ -87,7 +71,7 @@ class Diagben
         $cTipCar = Flight::request()->data->cTipCar;
         $nModUni = Flight::request()->data->nModUni;
 
-        $query = $this->db->prepare("INSERT INTO tbDiagGen (cCveMec, cCveRea, cCveSup, cDesCar, cDesTras, cMcaMot, cObsDiag, cDesHP, dtFecReg, dtHorReg, cDesFall, nCveEmp, nCveSrv, nIdeUni, cTipMot, cTipCar, nModUni) 
+        $query = $this->db->prepare("INSERT INTO tbdiaggen (cCveMec, cCveRea, cCveSup, cDesCar, cDesTras, cMcaMot, cObsDiag, cDesHP, dtFecReg, dtHorReg, cDesFall, nCveEmp, nCveSrv, nIdeUni, cTipMot, cTipCar, nModUni) 
         VALUES (:cCveMec, :cCveRea, :cCveSup, :cDesCar, :cDesTras, :cMcaMot, :cObsDiag, :cDesHP, :dtFecReg, :dtHorReg, :cDesFall, :nCveEmp, :nCveSrv, :nIdeUni, :cTipMot, :cTipCar, :nModUni)");
 
 
@@ -150,7 +134,7 @@ class Diagben
     function getByID($nIdDiag)
     {
         
-        $query = $this->db->prepare("SELECT * FROM tbDiagGen WHERE nIdDiag = :nIdDiag");
+        $query = $this->db->prepare("SELECT * FROM tbdiaggen WHERE nIdDiag = :nIdDiag");
         $query->execute([":nIdDiag" => $nIdDiag]);
         $principal = $query->fetch();
 
@@ -200,7 +184,7 @@ class Diagben
         $cTipCar = Flight::request()->data->cTipCar;
         $nModUni = Flight::request()->data->nModUni;
 
-        $query = $this->db->prepare("UPDATE tbDiagGen SET cCveMec = :cCveMec, cCveRea = :cCveRea, cCveSup = :cCveSup, cDesCar = :cDesCar,
+        $query = $this->db->prepare("UPDATE tbdiaggen SET cCveMec = :cCveMec, cCveRea = :cCveRea, cCveSup = :cCveSup, cDesCar = :cDesCar,
         cDesTras = :cDesTras, cMcaMot = :cMcaMot, cObsDiag = :cObsDiag, cDesHP = :cDesHP, dtFecReg = :dtFecReg, dtHorReg = :dtHorReg, 
         cDesFall = :cDesFall, nCveEmp = :nCveEmp, nCveSrv = :nCveSrv, nIdeUni = :nIdeUni, cTipMot = :cTipMot, cTipCar = :cTipCar, nModUni = :nModUni WHERE nIdDiag = :nIdDiag   ");
 

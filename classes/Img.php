@@ -82,21 +82,22 @@ class Img
         $this->idDes();
         $imagenes = Flight::request()->data;
         foreach ($imagenes as $imagen) {
-            // Obtener la descripción de la imagen y la imagen en base 64
+            // Obtener la descripci贸n de la imagen y la imagen en base 64
             $cObsDiag = $imagen['des'];
             $base64Image = $imagen['img'];
             $nIdDiag = $imagen['nIdDiag'];
-            // Obtener la extensión de la imagen
+            // Obtener la extensi贸n de la imagen
             $extension = explode('/', mime_content_type($base64Image))[1];
-            // Crear un nombre de archivo único para la imagen
+            // Crear un nombre de archivo 煤nico para la imagen
             $filename = uniqid() . '.' . $extension;
-            // Decodificar la imagen de base64 y guardarla en la carpeta de imágenes
+            // Decodificar la imagen de base64 y guardarla en la carpeta de im谩genes
             $imageData = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $base64Image));
-            $filePath = dirname(__DIR__) . "\assets\images\\" . $filename;
+            $filePath =  dirname(__DIR__) . "/assets/images/" . $filename;
             file_put_contents($filePath, $imageData);
             //Quitar // que arroja la direccion
             $cNomDiag = str_replace('\\', '/', $filePath);
-            
+             $url =   str_replace('/home/usertest2023/public_html/', 'https://mantenimientoadic2.ddns.net/', $cNomDiag);
+             Flight::json($url);
             $nFotDiag = Flight::request()->data->nFotDiag;
            
             $query = $this->db->prepare("INSERT INTO tbdiagdet (nFotDiag, cNomDiag, cObsDiag, nIdDiag) 
@@ -108,7 +109,7 @@ class Img
             if (
                 $query->execute([
                     ":nFotDiag" => "1",
-                    ":cNomDiag" => $cNomDiag,
+                    ":cNomDiag" => $url,
                     ":cObsDiag" => $cObsDiag,
                     ":nIdDiag" => $nIdDiag
                   //":nIdDiag" => "2",
@@ -118,7 +119,7 @@ class Img
                     "data" => [
                         "nIntDiag" => $this->db->lastInsertId(),
                         ":nFotDiag" => $nFotDiag,
-                        ":cNomDiag" => $cNomDiag,
+                        ":cNomDiag" => $url,
                         ":cObsDiag" => $cObsDiag,
                         ":nIdDiag" => $nIdDiag,
                     ],

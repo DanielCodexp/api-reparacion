@@ -35,6 +35,7 @@ Flight::route('POST /car',[$car,'newCar']);
 //Api Relacionada con la tabla de tbImg
 Flight::route('POST /image',[$img,'guardar_imagenes']);
 Flight::route('GET /idDes',[$img, 'idDes']);
+Flight::route('GET /image',[$img, 'getAll']);
 Flight::route('PUT /image',[$img,'edit']);
 Flight::route('GET /image/@id', [$img, 'getByID']);
 Flight::route('DELETE /image/@nIntDiag', [$img, 'delete']);

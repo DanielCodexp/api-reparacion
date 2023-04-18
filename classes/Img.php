@@ -158,4 +158,22 @@ class Img
         }
         Flight::json($array);
     }
+    function getAll(){
+        $query = $this->db->prepare("SELECT * FROM tbdiagdet");
+        $query->execute();
+        $data = $query->fetchAll();
+        $array = [];
+        foreach ($data as $row) {
+            $array[] = [
+              
+                "cNomDiag" => $row['cNomDiag'],
+                "cObsDiag" => $row['cObsDiag'],
+                
+            ];
+        }
+        Flight::json([
+            "reports" => $array,
+        ]);
+   
+    }
 }

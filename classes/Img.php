@@ -40,45 +40,45 @@ class Img
     {
         $imagenes = Flight::request()->data;
         foreach ($imagenes as $imagen) {
-     
 
-        $nIntDiag = $imagen['nIntDiag'];
-        $nFotDiag = $imagen['nFotDiag'];
-        $cNomDiag = $imagen['cNomDiag'];
-        $cObsDiag = $imagen['cObsDiag'];
-        $nIdDiag = $imagen['nIdDiag'];
 
-        $query = $this->db->prepare("UPDATE tbdiagdet SET nFotDiag = :nFotDiag, cNomDiag = :cNomDiag, cObsDiag = :cObsDiag, nIdDiag = :nIdDiag WHERE nIntDiag = :nIntDiag");
-        $array = [
-            "error" => "Hubo un error al agregar los registros",
-            "status" => "error"
-        ];
-        if (
-            $query->execute([
-                "nIntDiag" => $nIntDiag,
-                ":nFotDiag" => $nFotDiag,
-                ":cNomDiag" => $cNomDiag,
-                ":cObsDiag" => $cObsDiag,
-                ":nIdDiag" => $nIdDiag
-            ])
-        ) {
+            $nIntDiag = $imagen['nIntDiag'];
+            $nFotDiag = $imagen['nFotDiag'];
+            $cNomDiag = $imagen['cNomDiag'];
+            $cObsDiag = $imagen['cObsDiag'];
+            $nIdDiag = $imagen['nIdDiag'];
+
+            $query = $this->db->prepare("UPDATE tbdiagdet SET nFotDiag = :nFotDiag, cNomDiag = :cNomDiag, cObsDiag = :cObsDiag, nIdDiag = :nIdDiag WHERE nIntDiag = :nIntDiag");
             $array = [
-                "data" => [
+                "error" => "Hubo un error al agregar los registros",
+                "status" => "error"
+            ];
+            if (
+                $query->execute([
                     "nIntDiag" => $nIntDiag,
                     ":nFotDiag" => $nFotDiag,
                     ":cNomDiag" => $cNomDiag,
                     ":cObsDiag" => $cObsDiag,
-                    ":nIdDiag" => $nIdDiag,
-                ],
-                "status" => "success"
-            ];
-        }
+                    ":nIdDiag" => $nIdDiag
+                ])
+            ) {
+                $array = [
+                    "data" => [
+                        "nIntDiag" => $nIntDiag,
+                        ":nFotDiag" => $nFotDiag,
+                        ":cNomDiag" => $cNomDiag,
+                        ":cObsDiag" => $cObsDiag,
+                        ":nIdDiag" => $nIdDiag,
+                    ],
+                    "status" => "success"
+                ];
+            }
 
-        Flight::json($array);
-    }
+            Flight::json($array);
+        }
     }
     function guardar_imagenes()
-    { 
+    {
         $this->idDes();
         $imagenes = Flight::request()->data;
         foreach ($imagenes as $imagen) {
@@ -96,9 +96,9 @@ class Img
             file_put_contents($filePath, $imageData);
             //Quitar // que arroja la direccion
             $cNomDiag = str_replace('\\', '/', $filePath);
-            
+
             $nFotDiag = Flight::request()->data->nFotDiag;
-           
+
             $query = $this->db->prepare("INSERT INTO tbdiagdet (nFotDiag, cNomDiag, cObsDiag, nIdDiag) 
             VALUES (:nFotDiag, :cNomDiag , :cObsDiag, :nIdDiag)");
             $array = [
@@ -111,7 +111,7 @@ class Img
                     ":cNomDiag" => $cNomDiag,
                     ":cObsDiag" => $cObsDiag,
                     ":nIdDiag" => $nIdDiag
-                  //":nIdDiag" => "2",
+                    //":nIdDiag" => "2",
                 ])
             ) {
                 $array = [
@@ -144,9 +144,10 @@ class Img
                 "nIdDiag" => $row['nIdDiag'],
             ];
         }
-        Flight::json( $array);
+        Flight::json($array);
     }
-    function delete($nIntDiag){
+    function delete($nIntDiag)
+    {
         $query = $this->db->prepare("DELETE from tbdiagdet WHERE nIntDiag = :nIntDiag");
         if ($query->execute([":nIntDiag" => $nIntDiag])) {
             $array = [
@@ -158,22 +159,22 @@ class Img
         }
         Flight::json($array);
     }
-    function getAll(){
+    function getAll()
+    {
         $query = $this->db->prepare("SELECT * FROM tbdiagdet");
         $query->execute();
         $data = $query->fetchAll();
         $array = [];
         foreach ($data as $row) {
             $array[] = [
-              
+
                 "cNomDiag" => $row['cNomDiag'],
                 "cObsDiag" => $row['cObsDiag'],
-                
+
             ];
         }
-        Flight::json([
-            "reports" => $array,
-        ]);
-   
+        Flight::json(
+            $array
+        );
     }
 }

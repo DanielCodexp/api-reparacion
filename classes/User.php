@@ -118,7 +118,8 @@ class Users
         $data = $query->fetch();
         $array = [
             "username" => $data['username'],
-            "role" => $data['role']
+            "role" => $data['role'],
+            "name" => $data['name']
         ];
         Flight::json($array);
     }

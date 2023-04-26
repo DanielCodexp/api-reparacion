@@ -119,7 +119,8 @@ class Users
         $array = [
             "username" => $data['username'],
             "role" => $data['role'],
-            "name" => $data['name']
+            "name" => $data['name'],
+            "id" => $data['id']
         ];
         Flight::json($array);
     }
